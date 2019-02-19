@@ -5,6 +5,9 @@ describe('some things', () => {
         expect(2 + 2).toBe(4);
     });
     it('can add DELETE ME', () => {
-        expect(add(2,2)).toBe(4);
+        expect(add(2, 2)).toBe(4);
     });
+    it('can add two numbers', () => {
+        expect(add(10, 2)).toBe(12);
+    })
 }); 
