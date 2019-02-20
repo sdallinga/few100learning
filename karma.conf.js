@@ -25,5 +25,7 @@ module.exports = (config) => {
         browsers: ['ChromeHeadless'] // or just 'Chrome', 'ie', 'firefox', 'edge' etc.
         //browsers: ['Chrome', 'Edge']; // can run tests in more than one browser at once.
         // need to install karma-edge-launcher:   npm install karma-edge-launcher
+        // For Debugging
+        //        browsers: ['Chrome']
     });
 };
