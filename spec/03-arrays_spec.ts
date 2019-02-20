@@ -139,5 +139,109 @@ describe('destructuring', () => {
 				}]);
 			});
 		});
+		describe('methods that produce a single value (scalar)', () => {
+			it('has methods to check the membership of an array', () => {
+				expect(numbers.some(n => n > 8)).toBe(true);
+				expect(numbers.every(n => n < 10)).toBe(true);
+			});
+			it('has reduce', () => {
+				expect(numbers.reduce((p, c, ) => p + c)).toBe(45);
+				expect(numbers.reduce((p, c, ) => { console.log({ p, c }); return p + c; }, 100)).toBe(145);  // with initial value of 100
+			});
+			it('an example', () => {
+				interface Vehicle {
+					vin: string;
+					makeAndModel: string
+					mileage: number
+				}
+				const vehicles: Vehicle[] = [
+					{ vin: '9999', makeAndModel: 'Chevy Tahoe', mileage: 182000 },
+					{ vin: 'aka92', makeAndModel: 'Toyota Prius', mileage: 89999 },
+					{ vin: 'kduwi', makeAndModel: 'Ford Explorer', mileage: 99998 }
+				];
+				// I want the make and model of the car with the highest mileage( don't worry about ties.  that can be homework)
+				interface TempResult {
+					makeAndModel: string;
+					mileage: number;
+				}
+				const initialState: TempResult = {
+					makeAndModel: null,
+					mileage: -1
+				};
+				const answer = vehicles
+					.reduce((state, next) => {
+						if (next.mileage > state.mileage) {
+							return {
+								makeAndModel: next.makeAndModel,
+								mileage: next.mileage
+							}
+						} else {
+							return state;
+						}
+
+					}, initialState).makeAndModel;    // since initialState is a TempResult, reduce returns a TempResult.
+
+				expect(answer).toBe('Chevy Tahoe');
+			});
+			it('ok one more example', () => {
+				const friends = ['sean', 'billy', 'stacey', 'david'];
+				const answer = friends
+					.map(f => f.toUpperCase())
+					.reduce((state, next) => `${state} ${next}`);
+
+				expect(answer).toBe('SEAN BILLY STACEY DAVID');
+			});
+			it('yet another example', () => {
+				const friends = ['sean', 'billy', 'stacey', 'david'];
+
+				interface Answer {
+					list: string;
+					numberOfFriends: number;
+				}
+
+				const initialState: Answer = {
+					list: '',
+					numberOfFriends: 0
+				}
+				const answer = friends
+					.map(f => f.toUpperCase())
+					.reduce((state, next) => {
+						return {
+							list: state.list ? state.list + ' ' + next : next, numberOfFriends: state.numberOfFriends + 1
+						}
+					}, initialState);
+
+				expect(answer.list).toBe('SEAN BILLY STACEY DAVID');
+				expect(answer.numberOfFriends).toBe(4);
+			});
+			it('final example and I mean it!', () => {
+				interface Action {
+					type: string;
+				}
+
+				const stuffThatHappened: Action[] = [
+					{ type: 'ADDED' },
+					{ type: 'ADDED' },
+					{ type: 'SUBTRACTED' },
+					{ type: 'ADDED' },
+				];
+
+				const initialState = 0;
+
+				const answer = stuffThatHappened.reduce((state, next) => {
+					switch (next.type) {
+						case 'ADDED': {
+							return state + 1;
+						}
+						case 'SUBTRACTED': {
+							return state - 1;
+						}
+					}
+				}, initialState)
+
+				expect(answer).toBe(2);
+			});
+
+		});
 	});
 });
